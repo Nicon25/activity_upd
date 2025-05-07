@@ -1,0 +1,29 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  
+  workflow_dispatch:     
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Run script
+        run: python commit.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Nicon25"
+          git config user.email "potapov.nikolai.v@gmail.com"
+          git add activity.txt
+          git commit -m "Automated daily update"
+          git push
